@@ -2,7 +2,7 @@
 This program is designed to aid in the analysis of Pokemon types and is fully compatable with custom types.
 
 ## Custom types
-To add custom types, you can edit src/main/resources/types.txt with a text editor  
+To add custom types, you can edit src/main/resources/types.txt with a text editor or scan your own custom file with the 'scan' command  
 Formatting is as follows:
 
 - TypeName
