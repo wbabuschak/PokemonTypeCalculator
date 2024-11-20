@@ -6,13 +6,13 @@ To add custom types, you can edit src/main/resources/types.txt with a text edito
 Formatting is as follows:
 
 - TypeName
-- Weakness Are Seperated With Spaces
+- Weakness Are Separated With Spaces
 - Resistances Are Also
 - Immunities Are Important Too
 
 ## Custom weights
 There is currently no way to edit the weights in which resistances, weaknesses, and immunities are scaled in the rank1 command without editing the source code  
-This functionaly will be added in a future version
+This functionality will be added in a future version
 
 ## Installation
 To get started, clone the repository:
@@ -24,4 +24,4 @@ git clone https://github.com/wbabuschak/PokemonTypeCalculator.git
 To get started, execute the file run.bat
 
 ## License
-You may download and edit this program but do not republish or claim ownership
+You may download and edit this program, but do not republish or claim ownership
