@@ -11,7 +11,7 @@ Formatting is as follows:
 - Immunities Are Important Too
 
 ## Custom weights
-There is currently no way to edit the weights in which resistances, weaknesses, and immunities are scaled in the rank1 command without editing the source code  
+There is currently no way to edit the weights in which resistances, weaknesses, and immunities are scaled in the rank commands without editing the source code  
 This functionality will be added in a future version
 
 ## Installation
