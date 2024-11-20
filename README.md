@@ -21,7 +21,7 @@ To get started, clone the repository:
 git clone https://github.com/wbabuschak/PokemonTypeCalculator.git
 ```
 ## Running the program
-To get started, execute the file run.bat
+To get running, execute the file run.bat
 
 ## License
 You may download and edit this program, but do not republish or claim ownership
