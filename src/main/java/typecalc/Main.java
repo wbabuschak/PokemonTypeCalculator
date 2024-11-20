@@ -21,6 +21,8 @@ public class Main {
         "'list' prints the names of types scanned",
         "'chart' prints the calculated type chart",
         "'rank1' ranks the types based on first-order matchups",
+        "'rank2' ranks the types based on second-order matchups (e.g. fairy is a more useful resistance than normal)",
+        "'scan' scans a target file for type information"
         };
 
         scan(types,runner,targetType);
