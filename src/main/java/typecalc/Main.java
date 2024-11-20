@@ -5,16 +5,15 @@ import java.io.*;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        File inputfile = new File("src/main/resources/types.txt");
         ArrayList<Type> types = new ArrayList<>();
 
         double RESSCALAR = 1.0;
         double IMMUNSCALAR = 1.1;
         double WEAKSCALAR = 1.0;
 
-        int i = 1;
+        int runner = 1;
         Type targetType = null;
+
         String[] instructions = {
         "'help' retuns this list",
         "'quit' closes this program",
@@ -23,87 +22,9 @@ public class Main {
         "'chart' prints the calculated type chart",
         "'rank1' ranks the types based on first-order matchups",
         };
+
+        scan(types,runner,targetType);
         
-
-        try (Scanner filescanner = new Scanner(inputfile)) {
-            while (filescanner.hasNextLine()) {
-                String line = filescanner.nextLine().trim();
-                if (line.equals("")) {
-                    i++;
-                    continue;
-                }
-
-                String[] names = line.split(" ");
-                
-                for (int k = 0; k < names.length; k++) {
-                    boolean typeExists = false;
-                    for (int l = 0; l < types.size(); l++) {
-                        if (types.get(l).displayName.equals(names[k])) {
-                            typeExists = true;
-                            break;
-                        }
-                    }
-                    if (!typeExists) {
-                        types.add(new Type(names[k]));
-                    }
-                }
-
-                if (i % 4 == 1) {
-                    targetType = null;
-                    String targetName = names[0];
-                    
-                    for (int k = 0; k < types.size(); k++) {
-                        if (types.get(k).displayName.equals(targetName)) {
-                            targetType = types.get(k);
-                            break;
-                        }
-                    }
-                }
-
-                if (targetType != null) {
-
-                    if (i % 4 == 2) {
-                        if (!line.equals("")) {
-                            for (int j = 0; j < names.length; j++) {
-                                for (int k = 0; k < types.size(); k++) {
-                                    if (types.get(k).displayName.equals(names[j])) {
-                                        targetType.weak.add(types.get(k));
-                                    }
-                                }
-                            }
-                        }
-
-                    } if (i % 4 == 3) {
-                        if (!line.equals("")) {
-                            for (int j = 0; j < names.length; j++) {
-                                for (int k = 0; k < types.size(); k++) {
-                                    if (types.get(k).displayName.equals(names[j])) {
-                                        targetType.resist.add(types.get(k));
-                                    }
-                                }
-                            }
-                        }
-
-                    } if (i % 4 == 0) {
-                        if (!line.equals("")) {
-                            for (int j = 0; j < names.length; j++) {
-                                for (int k = 0; k < types.size(); k++) {
-                                    if (types.get(k).displayName.equals(names[j])) {
-                                        targetType.immun.add(types.get(k));
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                i++;
-            }
-            System.out.println("Program intialized! Type 'help' for commands");
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found!");
-        }
-           
         while(true){
             String input = scanner.next();
             if (input.equals("help")){
@@ -393,9 +314,178 @@ public class Main {
                         System.out.printf("\tWith a total score of: %.1f!\n", ranks[j][0] + ranks[j][1]);
                     }
                 }
+            } else if (input.equals("scan")){
+                System.out.println("Please specify target location");
+                String specinput = scanner.next();
+                scan(types,runner,targetType,specinput);
             }
-            
         }
         scanner.close();
+    }
+
+    private static void scan(ArrayList<Type> inptypes, int i, Type pik){
+
+        File inputfile = new File("src/main/resources/types.txt");
+        try (Scanner filescanner = new Scanner(inputfile)) {
+            while (filescanner.hasNextLine()) {
+                String line = filescanner.nextLine().trim();
+                if (line.equals("")) {
+                    i++;
+                    continue;
+                }
+
+                String[] names = line.split(" ");
+                
+                for (int k = 0; k < names.length; k++) {
+                    boolean typeExists = false;
+                    for (int l = 0; l < inptypes.size(); l++) {
+                        if (inptypes.get(l).displayName.equals(names[k])) {
+                            typeExists = true;
+                            break;
+                        }
+                    }
+                    if (!typeExists) {
+                        inptypes.add(new Type(names[k]));
+                    }
+                }
+
+                if (i % 4 == 1) {
+                    pik = null;
+                    String targetName = names[0];
+                    
+                    for (int k = 0; k < inptypes.size(); k++) {
+                        if (inptypes.get(k).displayName.equals(targetName)) {
+                            pik = inptypes.get(k);
+                            break;
+                        }
+                    }
+                }
+
+                if (pik != null) {
+
+                    if (i % 4 == 2) {
+                        if (!line.equals("")) {
+                            for (int j = 0; j < names.length; j++) {
+                                for (int k = 0; k < inptypes.size(); k++) {
+                                    if (inptypes.get(k).displayName.equals(names[j])) {
+                                        pik.weak.add(inptypes.get(k));
+                                    }
+                                }
+                            }
+                        }
+
+                    } if (i % 4 == 3) {
+                        if (!line.equals("")) {
+                            for (int j = 0; j < names.length; j++) {
+                                for (int k = 0; k < inptypes.size(); k++) {
+                                    if (inptypes.get(k).displayName.equals(names[j])) {
+                                        pik.resist.add(inptypes.get(k));
+                                    }
+                                }
+                            }
+                        }
+
+                    } if (i % 4 == 0) {
+                        if (!line.equals("")) {
+                            for (int j = 0; j < names.length; j++) {
+                                for (int k = 0; k < inptypes.size(); k++) {
+                                    if (inptypes.get(k).displayName.equals(names[j])) {
+                                        pik.immun.add(inptypes.get(k));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                i++;
+            }
+            System.out.println("Program intialized! Type 'help' for commands");
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found!");
+        }
+    }
+
+    private static void scan(ArrayList<Type> inptypes, int i, Type pik, String filename){
+        inptypes.clear();
+        File inputfile = new File(filename);
+        try (Scanner filescanner = new Scanner(inputfile)) {
+            while (filescanner.hasNextLine()) {
+                String line = filescanner.nextLine().trim();
+                if (line.equals("")) {
+                    i++;
+                    continue;
+                }
+
+                String[] names = line.split(" ");
+                
+                for (int k = 0; k < names.length; k++) {
+                    boolean typeExists = false;
+                    for (int l = 0; l < inptypes.size(); l++) {
+                        if (inptypes.get(l).displayName.equals(names[k])) {
+                            typeExists = true;
+                            break;
+                        }
+                    }
+                    if (!typeExists) {
+                        inptypes.add(new Type(names[k]));
+                    }
+                }
+
+                if (i % 4 == 1) {
+                    pik = null;
+                    String targetName = names[0];
+                    
+                    for (int k = 0; k < inptypes.size(); k++) {
+                        if (inptypes.get(k).displayName.equals(targetName)) {
+                            pik = inptypes.get(k);
+                            break;
+                        }
+                    }
+                }
+
+                if (pik != null) {
+
+                    if (i % 4 == 2) {
+                        if (!line.equals("")) {
+                            for (int j = 0; j < names.length; j++) {
+                                for (int k = 0; k < inptypes.size(); k++) {
+                                    if (inptypes.get(k).displayName.equals(names[j])) {
+                                        pik.weak.add(inptypes.get(k));
+                                    }
+                                }
+                            }
+                        }
+
+                    } if (i % 4 == 3) {
+                        if (!line.equals("")) {
+                            for (int j = 0; j < names.length; j++) {
+                                for (int k = 0; k < inptypes.size(); k++) {
+                                    if (inptypes.get(k).displayName.equals(names[j])) {
+                                        pik.resist.add(inptypes.get(k));
+                                    }
+                                }
+                            }
+                        }
+
+                    } if (i % 4 == 0) {
+                        if (!line.equals("")) {
+                            for (int j = 0; j < names.length; j++) {
+                                for (int k = 0; k < inptypes.size(); k++) {
+                                    if (inptypes.get(k).displayName.equals(names[j])) {
+                                        pik.immun.add(inptypes.get(k));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                i++;
+            }
+            System.out.println("Program intialized! Type 'help' for commands");
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found!");
+        }
     }
 }
