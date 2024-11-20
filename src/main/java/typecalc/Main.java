@@ -167,17 +167,17 @@ public class Main {
             } else if (input.equals("rank1") || input.equals("rank")){
 
                 System.out.println("Specify 'def'ensive, 'off'ensive, 'tot'al, or 'all'\n");
-                input = scanner.next();
+                String specinput = scanner.next();
                 
             
                 double[][] ranks = new double[types.size()][3];
                 for (int j = 0; j < types.size(); j++){
                     ranks[j][2] = j;
                     // # resists * RESSCALAR + # immunities * IMMUNSCALAR - weaks * WEAKSCALAR
-                    if (input.equals("def") || input.equals("tot") || input.equals("all")){
+                    if (specinput.equals("def") || specinput.equals("tot") || specinput.equals("all")){
                         ranks[j][0] = types.get(j).resist.size() * RESSCALAR +  types.get(j).immun.size() * IMMUNSCALAR - types.get(j).weak.size();
                     }
-                    if (input.equals("off") || input.equals("tot") || input.equals("all")){
+                    if (specinput.equals("off") || specinput.equals("tot") || specinput.equals("all")){
                         for (int k = 0; k < types.size(); k++){
                             for (int l = 0; l < types.get(k).weak.size(); l++){
                                 if (types.get(k).weak.get(l).displayName.equals(types.get(j).displayName)){
@@ -198,6 +198,26 @@ public class Main {
                     }
                     
                 }
+
+                double mindef = ranks[0][0];
+                double minoff = ranks[0][1];
+                for (int j = 0; j < types.size(); j++){
+                    if (mindef > ranks[j][0]){
+                        mindef = ranks[j][0];
+                    }
+                    if (minoff > ranks[j][1]){
+                        minoff = ranks[j][1];
+                    }
+                }
+                for (int j = 0; j < types.size(); j++){
+                    if (mindef < 0){
+                        ranks[j][0] -= mindef;
+                    }
+                    if (minoff < 0){
+                        ranks[j][1] -= minoff;
+                    }
+                }
+
                 for (int j = 0; j < ranks.length - 1; j++){
                     for (int k = 0; k < ranks.length - j - 1; k++){
                         if (ranks[k][0] + ranks[k][1] > ranks[k + 1][ 0] + ranks[k + 1][1]){
@@ -208,17 +228,165 @@ public class Main {
                     }
 
                 }
-                for (int j = types.size()-1; j > 0; j--){
-                    if (input.equals("def")){
+                for (int j = types.size()-1; j >= 0; j--){
+                    if (specinput.equals("def")){
                         System.out.printf("%s: %.1f\n",types.get((int) ranks[j][2]).displayName, ranks[j][0]);
                     }
-                    if (input.equals("off")){
+                    if (specinput.equals("off")){
                         System.out.printf("%s: %.1f\n",types.get((int) ranks[j][2]).displayName, ranks[j][1]);
                     }
-                    if (input.equals("tot")){
+                    if (specinput.equals("tot")){
                         System.out.printf("%s: %.1f\n",types.get((int) ranks[j][2]).displayName, ranks[j][0] + ranks[j][1]);
                     }
-                    if (input.equals("all")){
+                    if (specinput.equals("all")){
+                        System.out.println((types.size() - j) + ": " + types.get((int) ranks[j][2]).displayName);
+                        System.out.printf("\tWith a defensive score of: %.1f ...\n", ranks[j][0]);
+                        System.out.printf("\tWith an offensive score of: %.1f ...\n", ranks[j][1]);
+                        System.out.printf("\tWith a total score of: %.1f!\n", ranks[j][0] + ranks[j][1]);
+                    }
+                }
+            } else if (input.equals("rank2")){
+                System.out.println("Specify 'def'ensive, 'off'ensive, 'tot'al, or 'all'\n");
+                String specinput = scanner.next();     
+            
+                double[][] ranks = new double[types.size()][3];
+                for (int j = 0; j < types.size(); j++){
+                    ranks[j][2] = j;
+                    // # resists * RESSCALAR + # immunities * IMMUNSCALAR - weaks * WEAKSCALAR
+                    ranks[j][0] = types.get(j).resist.size() * RESSCALAR +  types.get(j).immun.size() * IMMUNSCALAR - types.get(j).weak.size();
+                    
+                    for (int k = 0; k < types.size(); k++){
+                        for (int l = 0; l < types.get(k).weak.size(); l++){
+                            if (types.get(k).weak.get(l).displayName.equals(types.get(j).displayName)){
+                                ranks[j][1] += WEAKSCALAR;
+                            }
+                        }
+                        for (int l = 0; l < types.get(k).resist.size(); l++){
+                            if (types.get(k).resist.get(l).displayName.equals(types.get(j).displayName)){
+                                ranks[j][1] -= RESSCALAR;
+                            }
+                        }
+                        for (int l = 0; l < types.get(k).immun.size(); l++){
+                            if (types.get(k).immun.get(l).displayName.equals(types.get(j).displayName)){
+                                ranks[j][1] -= IMMUNSCALAR;
+                            }
+                        }
+                    }
+                    }
+                
+                double mindef = ranks[0][0];
+                double minoff = ranks[0][1];
+                for (int j = 0; j < types.size(); j++){
+                    if (mindef > ranks[j][0]){
+                        mindef = ranks[j][0];
+                    }
+                    if (minoff > ranks[j][1]){
+                        minoff = ranks[j][1];
+                    }
+                }
+                for (int j = 0; j < types.size(); j++){
+                    if (mindef < 0){
+                        ranks[j][0] -= mindef;
+                    }
+                    if (minoff < 0){
+                        ranks[j][1] -= minoff;
+                    }
+                }
+                
+                double[] defscalars = new double[types.size()];
+                double[] offscalars = new double[types.size()];
+                for (int j = 0; j < types.size(); j++){
+                    defscalars[j] = 0.0;
+                    offscalars[j] = 0.0;
+                    for (int k = 0; k < types.size(); k++){
+                        for (int l = 0; l < types.get(j).weak.size(); l++){
+                            if (types.get(j).weak.get(l).displayName.equals(types.get(k).displayName)){
+                                defscalars[j] -= ranks[k][1];
+                                offscalars[k] += ranks[k][0];
+                                
+                            }
+                        }
+                        for (int l = 0; l < types.get(j).resist.size(); l++){
+                            if (types.get(j).resist.get(l).displayName.equals(types.get(k).displayName)){
+                                defscalars[j] += ranks[k][1];
+                                offscalars[k] -= ranks[k][0];
+                                
+                            }
+                        }
+                        for (int l = 0; l < types.get(j).immun.size(); l++){
+                            if (types.get(j).immun.get(l).displayName.equals(types.get(k).displayName)){
+                                defscalars[j] += ranks[k][1];
+                                offscalars[k] -= ranks[k][0];
+                                
+                            }
+                        }
+                    }
+
+                }
+
+                
+
+                for (int j = 0; j < defscalars.length; j++){
+                    ranks[j][0] *= (10 * defscalars[j]);
+                    ranks[j][1] *= (10 * offscalars[j]);
+                }
+
+                for (int j = 0; j < types.size(); j++){
+                    if (mindef > ranks[j][0]){
+                        mindef = ranks[j][0];
+                    }
+                    if (minoff > ranks[j][1]){
+                        minoff = ranks[j][1];
+                    }
+                }
+                for (int j = 0; j < types.size(); j++){
+                    if (mindef < 0){
+                        ranks[j][0] -= mindef;
+                    }
+                    if (minoff < 0){
+                        ranks[j][1] -= minoff;
+                    }
+                }
+
+                for (int j = 0; j < ranks.length - 1; j++){
+                    for (int k = 0; k < ranks.length - j - 1; k++){
+                        if (specinput.equals("tot") || specinput.equals("all")){
+                            if (ranks[k][0] + ranks[k][1] > ranks[k + 1][ 0] + ranks[k + 1][1]){
+                                double[] temp = ranks[k];
+                                ranks[k] = ranks[k + 1];
+                                ranks[k + 1] = temp;
+                            }
+                        }
+                        if (specinput.equals("def")){
+                            if (ranks[k][0] > ranks[k + 1][0]){
+                                double[] temp = ranks[k];
+                                ranks[k] = ranks[k + 1];
+                                ranks[k + 1] = temp;
+                            }
+                        }
+                        if (specinput.equals("off")){
+                            if (ranks[k][1] > ranks[k + 1][1]){
+                                double[] temp = ranks[k];
+                                ranks[k] = ranks[k + 1];
+                                ranks[k + 1] = temp;
+                            }
+                        }
+                        
+                    }
+
+                }
+                
+                for (int j = types.size()-1; j >= 0; j--){
+                    if (specinput.equals("def")){
+                        System.out.printf("%s: %.1f\n",types.get((int) ranks[j][2]).displayName, ranks[j][0]);
+                    }
+                    if (specinput.equals("off")){
+                        System.out.printf("%s: %.1f\n",types.get((int) ranks[j][2]).displayName, ranks[j][1]);
+                    }
+                    if (specinput.equals("tot")){
+                        System.out.printf("%s: %.1f\n",types.get((int) ranks[j][2]).displayName, ranks[j][0] + ranks[j][1]);
+                    }
+                    if (specinput.equals("all")){
                         System.out.println((types.size() - j) + ": " + types.get((int) ranks[j][2]).displayName);
                         System.out.printf("\tWith a defensive score of: %.1f ...\n", ranks[j][0]);
                         System.out.printf("\tWith an offensive score of: %.1f ...\n", ranks[j][1]);
