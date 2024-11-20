@@ -22,7 +22,8 @@ public class Main {
         "'chart' prints the calculated type chart",
         "'rank1' ranks the types based on first-order matchups",
         "'rank2' ranks the types based on second-order matchups (e.g. fairy is a more useful resistance than normal)",
-        "'scan' scans a target file for type information"
+        "'scan' scans a target file for type information",
+        "'type' launches a defensive pokemon typing calculator"
         };
 
         scan(types,runner,targetType);
@@ -320,6 +321,107 @@ public class Main {
                 System.out.println("Please specify target location");
                 String specinput = scanner.next();
                 scan(types,runner,targetType,specinput);
+            } else if (input.equals("type")){
+                System.out.println("Please enter one type or two seperated by a space");
+                scanner.nextLine();
+                String specinput = scanner.nextLine();
+                String[] stra = specinput.split(" ");
+                Type type1 = null;
+                Type type2 = null;
+                
+                
+                for (int j = 0; j < types.size(); j++){
+                    if (types.get(j).displayName.equals(stra[0])){
+                        type1 = types.get(j);
+                    }
+                    if (stra.length >= 2){
+                        if (types.get(j).displayName.equals(stra[1])){
+                            type2 = types.get(j);
+                        }
+                    }
+                }
+
+                double[] typearr = new double[types.size()];
+                int[] indices = new int[types.size()];
+                for (int j = 0; j < types.size(); j++){
+                    typearr[j] = 1.0;
+                    indices[j] = j;
+                }
+
+                for (int j = 0; j < types.size(); j++){
+                    for (int k = 0; k < type1.weak.size(); k++){
+                        if (types.get(j).displayName.equals(type1.weak.get(k).displayName)){
+                            typearr[j] *= 2.0;
+                        }
+                    }
+                    if (stra.length >= 2){
+                        for (int k = 0; k < type2.weak.size(); k++){
+                            if (types.get(j).displayName.equals(type2.weak.get(k).displayName)){
+                                typearr[j] *= 2.0;
+                            }
+                        }
+                    }
+                    for (int k = 0; k < type1.resist.size(); k++){
+                        if (types.get(j).displayName.equals(type1.resist.get(k).displayName)){
+                            typearr[j] *= 0.5;
+                        }
+                    }
+                    if (stra.length >= 2){
+                        for (int k = 0; k < type2.resist.size(); k++){
+                            if (types.get(j).displayName.equals(type2.resist.get(k).displayName)){
+                                typearr[j] *= 0.5;
+                            }
+                        }
+                    }
+                    for (int k = 0; k < type1.immun.size(); k++){
+                        if (types.get(j).displayName.equals(type1.immun.get(k).displayName)){
+                            typearr[j] *= 0.0;
+                        }
+                    }
+                    if (stra.length >= 2){
+                        for (int k = 0; k < type2.immun.size(); k++){
+                            if (types.get(j).displayName.equals(type2.immun.get(k).displayName)){
+                                typearr[j] *= 0.0;
+                            }
+                        }
+                    }
+                    
+                }
+
+                for (int j = 0; j < typearr.length - 1; j++){
+                    for (int k = 0; k < typearr.length - j - 1; k++){
+                        if (typearr[k] < typearr[k+1]){
+                            double temp = typearr[k];
+                            int tempi = indices[k];
+                            typearr[k] = typearr[k + 1];
+                            indices[k] = indices[k + 1];
+                            typearr[k + 1] = temp;
+                            indices[k + 1] = tempi;
+                        }
+                    }
+
+                }
+
+                System.out.println();
+                for (int j = 0; j < typearr.length; j++){
+                    if (typearr[j]==4.0){
+                        System.out.println("[4x] Quad-effective damage from " + types.get(indices[j]).displayName + "!");
+                    }
+                    if (typearr[j]==2.0){
+                        System.out.println("[2x] Super-effective damage from " + types.get(indices[j]).displayName);
+                    }
+                    if (typearr[j]==0.5){
+                        System.out.println("[1/2] Resisted damage from " + types.get(indices[j]).displayName);
+                    }
+                    if (typearr[j]==0.25){
+                        System.out.println("[1/4] Doubly resisted damage from " + types.get(indices[j]).displayName);
+                    }
+                    if (typearr[j]==0.0){
+                        System.out.println("[0x] Immune to damage from " + types.get(indices[j]).displayName + "!");
+                    }
+                    
+                }
+                
             }
         }
         scanner.close();
