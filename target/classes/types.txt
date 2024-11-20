@@ -1,0 +1,72 @@
+Normal
+Fighting
+
+Ghost
+Fire
+Water Rock Ground
+Fire Grass Ice Bug Steel Fairy
+
+Water
+Electric Grass
+Fire Water Ice Steel
+
+Electric
+Ground
+Electric Flying Steel
+
+Grass
+Fire Ice Poison Flying Bug
+Water Electric Ground Grass
+
+Ice
+Fire Fighting Steel Rock
+Ice
+
+Fighting
+Flying Psychic Fairy
+Bug Rock Dark
+
+Poison
+Ground Psychic
+Grass Fighting Poison Bug Fairy
+
+Ground
+Ice Water Grass
+Poison Rock
+Electric
+Flying
+Electric Rock Ice
+Grass Fighting Bug
+Ground
+Psychic
+Bug Ghost Dark
+Fighting Psychic
+
+Bug
+Fire Flying Rock
+Grass Fighting Ground
+
+Rock
+Water Grass Fighting Steel Ground
+Normal Fire Poison Flying
+
+Ghost
+Ghost Dark
+Poison Bug
+Normal Fighting
+Dragon
+Dragon Ice Fairy
+Fire Water Electric Grass
+
+Dark
+Fighting Bug Fairy
+Ghost Dark
+Psychic
+Steel
+Fire Fighting Ground
+Normal Grass Ice Flying Psychic Bug Rock Dragon Steel Fairy
+Poison
+Fairy
+Poison Steel
+Fighting Bug Dark
+Dragon
