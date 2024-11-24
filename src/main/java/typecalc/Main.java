@@ -422,6 +422,8 @@ public class Main {
                     
                 }
                 
+            } else if (input.equals("stab")){
+
             }
         }
         scanner.close();
