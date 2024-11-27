@@ -25,3 +25,6 @@ To get running, execute the file run.bat
 
 ## License
 You may download and edit this program, but do not republish or claim ownership
+
+## Author
+You can email me if you questions about the future of this project
